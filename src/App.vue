@@ -1,32 +1,187 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <!-- Navigation Drawer -->
+    <v-navigation-drawer
+      v-if="state.store.state.showNav"
+      v-model="state.drawer"
+      app
+      clipped
+      dark
+      color="#01386E"
+      >
+      <!--v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            Burecs
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            subtext
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider-->
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in state.NavItems"
+          :key="item.title"
+          link
+          :to="item.path"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title
+              >
+                {{ item.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in state.store.state.contextualNavMenuItems"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+    </v-navigation-drawer>
+
+    <!-- App Bar -->
+    <v-app-bar
+      v-if="state.store.state.showNav"
+      app
+      color="#0B7ABF"
+      dark
+      clipped-left
+      >
+
+      <!-- App Nav Icon -->
+      <v-app-bar-nav-icon @click.stop="state.drawer = !state.drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Burecs</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        icon
+        @click="logout"
+        >
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
+
+      <v-chip
+        color="#ffffff"
+        light
+        small
+        >
+        <span class="overline">User: </span>
+        <span class="overline pl-2"> {{loggedInUser}}</span>
+      </v-chip>
+      <!--v-btn icon>
+        <v-icon>mdi-account</v-icon>
+      </v-btn-->
+
+      <!--v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn-->
+
+      <!--template v-slot:extension>
+        <v-tabs align-with-title>
+          <v-tab>Day Sales</v-tab>
+          <v-tab>Sales Reports</v-tab>
+          <v-tab>Products</v-tab>
+          <v-tab>Customers</v-tab>
+          <v-tab>Users</v-tab>
+        </v-tabs>
+      </template-->
+    </v-app-bar>
+
+    <!-- Content -->
+    <v-content>
+      <v-sheet
+          color="#EDE8E4"
+          height="100%"
+        >
+          <router-view></router-view>
+      </v-sheet>
+    </v-content>
+  </v-app>
 </template>
 
+<script>
+
+import { reactive } from '@vue/composition-api'
+
+import { authComputed } from '../src/store/helpers.js'
+
+export default {
+  name: 'App',
+
+  components: {
+
+  },
+  setup (props, { root: { $store, $router, $route } }) {
+    const state = reactive({
+      store: $store,
+      NavItems: [
+        { title: 'Day Sales', icon: 'mdi-view-dashboard', path: '/' },
+        // { title: 'Sales Reports', icon: 'mdi-image', path: '/' },
+        { title: 'Products', icon: 'mdi-help-box', path: '/products/productlist' },
+        // { title: 'Customers', icon: 'mdi-help-box', path: '/' },
+        { title: 'Users', icon: 'mdi-help-box', path: '/users/userlist' }
+      ],
+      drawer: null
+    })
+
+    const showNav = $store.state.showNav
+
+    const logout = () => {
+      // alert('Logout')
+      $store.dispatch('logout')
+    }
+
+    return {
+      state,
+      showNav,
+      logout
+    }
+  },
+  computed: {
+    ...authComputed
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+body {
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 22px;
 }
 
-#nav {
-  padding: 30px;
+h1, h2, p {
+  font-family: 'ZCOOL XiaoWei', serif;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
