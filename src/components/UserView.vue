@@ -438,7 +438,7 @@ export default {
 
       const authExists = () => {
         // alert('In addAuthorization, authExists')
-        if (newUser.authorizations.length > 0) {
+        if (newUser.value.authorizations.length > 0) {
           return newUser.value.authorizations.find((auth) => authorization.value.model === auth.model)
         } else {
           return null
