@@ -126,7 +126,17 @@ export default {
         .then(() => {
           // alert('In UserEdit, User saved')
           // $router.push('/user/' + user.value.username + '/edit')
-          Object.assign($store.state.newUser, {})
+          Object.assign($store.state.newUser, {
+            id: '',
+            username: '',
+            password: '',
+            firstname: '',
+            lastname: '',
+            email: '',
+            phonenumber: '',
+            authorizations: [],
+            groups: []
+          })
           $store.dispatch('showSnackBarMessage', { message: 'User data saved successfully!' })
         })
     }

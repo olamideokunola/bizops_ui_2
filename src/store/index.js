@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 // const baseURL = '//10.191.203.152:8000/bizops'
 // const baseURL = '//192.168.1.103:8000/bizops'
-// const baseURL = '//192.168.43.6:8000/bizops'
-const baseURL = '//165.227.94.31:8000/bizops'
+const baseURL = '//192.168.43.6:8000/bizops'
+// const baseURL = '//165.227.94.31:8000/bizops'
 const axios = require('axios').default
 axios.defaults.baseURL = baseURL
 
@@ -895,7 +895,7 @@ export default new Vuex.Store({
       return axios
         .post('/login/', credentials)
         .then(({ data }) => {
-          alert('In login!' + data.username)
+          // alert('In login!' + data.username)
           // console.log('------user data is: ', data)
           commit('SET_USER_DATA', data)
           // dispatch('loadUsers')
@@ -911,14 +911,14 @@ export default new Vuex.Store({
       fd.append('name', payload.name)
       fd.append('group', payload.group)
       fd.append('id', id)
-      alert(id)
+      // alert(id)
       axios.post('/uploadproductimage/' + id, fd)
         .then(response => {
           console.log(response)
         })
     },
     createProduct ({ dispatch, commit }, payload) {
-      alert(payload.name)
+      // alert(payload.name)
       const data = {
         name: payload.name,
         group: payload.group,
@@ -927,7 +927,7 @@ export default new Vuex.Store({
       axios.post('/products/', data)
         .then(response => {
           commit('SET_NEW_PRODUCT', response.data)
-          alert('id is: ' + response.data.id)
+          // alert('id is: ' + response.data.id)
           const id = response.data.id
           dispatch('uploadProductPhoto', { payload, id })
 
@@ -935,7 +935,7 @@ export default new Vuex.Store({
         })
     },
     updateProduct ({ dispatch, commit }, payload) {
-      alert('In updateProduct, id is: ' + payload.id)
+      // alert('In updateProduct, id is: ' + payload.id)
       const data = {
         name: payload.name,
         group: payload.group,
@@ -944,7 +944,7 @@ export default new Vuex.Store({
       axios.put('/products/' + payload.id, data)
         .then(response => {
           commit('SET_NEW_PRODUCT', response.data)
-          alert('id is: ' + response.data.id)
+          // alert('id is: ' + response.data.id)
           const id = response.data.id
           if (payload.selectedFile != null) {
             dispatch('uploadProductPhoto', { payload, id })

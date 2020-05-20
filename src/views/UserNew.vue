@@ -43,7 +43,7 @@
       <!-- Content-->
       <new-user
         title="New User"
-        :user="state.store.state.newUser"
+        :user="user"
         >
 
       </new-user>
@@ -104,16 +104,24 @@ export default {
     ]
     const title = ref('New User')
 
-    $store.state.newUser = {}
-
-    const userToSave = computed(() => $store.state.newUser)
+    const user = computed(() => $store.state.newUser)
 
     const saveNewUser = () => {
       $store.dispatch('saveUser')
         .then(() => {
           alert('In UserNew, User saved')
-          $router.push('/user/' + userToSave.value.username + '/edit')
-          Object.assign($store.state.newUser, {})
+          $router.push('/user/' + user.value.username + '/edit')
+          Object.assign($store.state.newUser, {
+            id: '',
+            username: '',
+            password: '',
+            firstname: '',
+            lastname: '',
+            email: '',
+            phonenumber: '',
+            authorizations: [],
+            groups: []
+          })
           $store.dispatch('showSnackBarMessage', { message: 'User data saved successfully!' })
         })
     }
@@ -122,7 +130,8 @@ export default {
       breadcrumbsItems,
       title,
       state,
-      saveNewUser
+      saveNewUser,
+      user
     }
   }
 }
