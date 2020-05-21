@@ -22,7 +22,7 @@
               <!--v-card-subtitle>Price: &#8358;{{product.price}}</v-card-subtitle-->
 
               <!-- Prices -->
-              <v-card-text class="pl-4 pt-0 pb-0 pr-2">
+              <v-card-text class="pl-4 pt-0 pb-2 pr-2">
                 <div class="pr-2">
                   <v-chip
                     class="mr-2"
@@ -35,11 +35,10 @@
               </v-card-text>
 
               <v-img
+                class="pt-2"
                 :src='product.imgsrc'
                 height="100%"
               ></v-img>
-
-              <v-card-subtitle>Prices</v-card-subtitle>
 
               <v-divider class="mx-4 mt-2"></v-divider>
 
