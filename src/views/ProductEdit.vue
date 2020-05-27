@@ -99,7 +99,7 @@ export default {
     const title = ref('Edit Product')
 
     const edittedProductName = $route.params.productname
-    $store.state.editProduct = $store.state.products.find((product) => product.name === edittedProductName)
+    $store.state.product.editProduct = $store.state.product.products.find((product) => product.name === edittedProductName)
 
     const breadcrumbsItems = [
       {

@@ -97,7 +97,7 @@
         small
         >
         <span class="overline">User: </span>
-        <span class="overline pl-2"> {{loggedInUser}}</span>
+        <span class="overline pl-2"> {{ loggedInUser}}</span>
       </v-chip>
       <!--v-btn icon>
         <v-icon>mdi-account</v-icon>
@@ -121,7 +121,7 @@
     <!-- Content -->
     <v-content>
       <v-sheet
-          color="#EDE8E4"
+          color="#F0F0F0"
           height="100%"
         >
           <router-view></router-view>
@@ -150,6 +150,7 @@ export default {
         // { title: 'Sales Reports', icon: 'mdi-image', path: '/' },
         { title: 'Products', icon: 'mdi-help-box', path: '/products/productlist' },
         // { title: 'Customers', icon: 'mdi-help-box', path: '/' },
+        { title: 'Production', icon: 'mdi-help-box', path: '/production/summary' },
         { title: 'Users', icon: 'mdi-help-box', path: '/users/userlist' }
       ],
       drawer: null
@@ -173,6 +174,8 @@ export default {
   }
 }
 </script>
+
+<!-- style src="./assets/tailwind.css"-->
 
 <style>
 body {

@@ -1,4 +1,5 @@
 import { ref, computed } from '@vue/composition-api'
+import store from '../store'
 
 // Convert to 2-digit string
 function convertToTwoDigitString (value) {
@@ -70,14 +71,17 @@ function useDateUtilities ({ state }) {
   // var currentDateYYYYMMDD = ref(year + '-' + monthCorrected + '-' + day)
   var currentDateYYYYMMDD = computed({
     get: () => {
-      if (state.store.state.currentDateYYYYMMDD === '') {
-        state.store.state.currentDateYYYYMMDD = todaysDateYYYYMMDD.value
-        return state.store.state.currentDateYYYYMMDD
+      if (store.state.currentDateYYYYMMDD === '') {
+        store.state.currentDateYYYYMMDD = todaysDateYYYYMMDD.value
+        return store.state.currentDateYYYYMMDD
       } else {
-        return state.store.state.currentDateYYYYMMDD
+        return store.state.currentDateYYYYMMDD
       }
     },
-    set: (val) => { state.store.state.currentDateYYYYMMDD = val }
+    set: (val) => {
+      // alert(val)
+      store.state.currentDateYYYYMMDD = val
+    }
   })
 
   var currentDate = computed(() => {
@@ -169,7 +173,7 @@ function useDateUtilities ({ state }) {
     if (currDay === Number(day) && currMonth === (Number(month) + 1) && currYear === Number(year)) {
       // Do nothing
       // alert('in dateUtils, today is current')
-      state.store.dispatch('showSnackBarMessage', { message: 'Cannot go to next day!' })
+      store.dispatch('showSnackBarMessage', { message: 'Cannot go to next day!' })
     } else {
       // at end of month
       if (currDay === daysInMonth) {
@@ -196,7 +200,6 @@ function useDateUtilities ({ state }) {
 
       currentDateYYYYMMDD.value = nextYear.toString() + '-' + nextMonth.toString() + '-' + nextDay.toString()
     }
-    // alert('currentDateYYYYMMDD is ' + state.store.state.currentDateYYYYMMDD)
   }
 
   // goto previous day

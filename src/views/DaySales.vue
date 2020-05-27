@@ -15,40 +15,7 @@
       </v-breadcrumbs>
 
       <v-spacer></v-spacer>
-      <v-subheader class="pr-6">{{ currentDate }}</v-subheader>
-
-      <v-btn
-        class="mr-2"
-        x-small
-        color="#53CFCB"
-        fab
-        outlined
-        @click="previousDay"
-        >
-        <v-icon small>mdi-chevron-left</v-icon>
-      </v-btn>
-
-      <v-btn
-        class="mr-2"
-        x-small
-        color="#53CFCB"
-        fab
-        @click="nextDay"
-        outlined
-        >
-        <v-icon small>mdi-chevron-right</v-icon>
-      </v-btn>
-
-       <v-btn
-        x-small
-        color="#53CFCB"
-        fab
-        dark
-        @click="showSelectDaySalesDateDialog = true"
-        >
-        <v-icon small>mdi-calendar-today</v-icon>
-      </v-btn>
-
+      <DateNavigator v-on:showSelectDateDialog="showSelectDaySalesDateDialog=true"></DateNavigator>
     </v-toolbar>
 
     <v-container >
@@ -138,6 +105,7 @@ import ProductGroupSale from '../components/ProductGroupSale'
 import NewSaleSingleUnitDialog from '../components/NewSaleSingleUnitDialog'
 import NewSaleMultipleUnitDialog from '../components/NewSaleMultipleUnitDialog'
 import DaySalesSelectDateDialog from '../components/DaySalesSelectDateDialog'
+import DateNavigator from '../components/DateNavigator'
 
 export default {
   name: 'DaySales',
@@ -145,7 +113,8 @@ export default {
     'product-group-sale': ProductGroupSale,
     'new-sale-single-unit-dialog': NewSaleSingleUnitDialog,
     'new-sale-multiple-unit-dialog': NewSaleMultipleUnitDialog,
-    'daysales-selectdate-dialog': DaySalesSelectDateDialog
+    'daysales-selectdate-dialog': DaySalesSelectDateDialog,
+    DateNavigator
   },
   setup (props, { root: { $store, $router, $route } }) {
     const state = reactive({
@@ -218,7 +187,7 @@ export default {
       // alert('In openAddSaleDialog')
       addSaleDialog.value = true
       productInfo.productSale = productSale
-      productInfo.product = $store.state.products.find((product) => product.id === productSale.productId)
+      productInfo.product = $store.state.product.products.find((product) => product.id === productSale.productId)
       // alert(event.productName)
     }
 
@@ -226,7 +195,7 @@ export default {
       // alert('In openAddSaleDialog')
       addMultipleUnitSaleDialog.value = true
       productInfo.productSale = productSale
-      productInfo.product = $store.state.products.find((product) => product.id === productSale.productId)
+      productInfo.product = $store.state.product.products.find((product) => product.id === productSale.productId)
 
       // alert(event.productName)
     }

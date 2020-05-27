@@ -17,6 +17,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: () => import(/* webpackChunkName: "about" */ '../views/TestView.vue')
+  },
+  {
     path: '/',
     name: 'DaySales',
     component: DaySales,
@@ -185,6 +190,61 @@ const routes = [
       }
     ],
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/production',
+    name: 'Production',
+    meta: {
+      requiresAuth: true,
+      requiredAuthorization: {
+        model: 'Production',
+        action: 'view'
+      }
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Production.vue'),
+    children: [
+      {
+        path: 'summary',
+        name: 'ProductionSummary',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionSummary.vue'),
+        meta: {
+          requiresAuth: true,
+          requiredAuthorization: {
+            model: 'Production',
+            action: 'view'
+          }
+        }
+      },
+      {
+        path: 'batches',
+        name: 'ProductionBatches',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionBatches.vue'),
+        meta: {
+          requiresAuth: true,
+          requiredAuthorization: {
+            model: 'Production',
+            action: 'view'
+          }
+        }
+      },
+      {
+        path: 'view/:producttype/:batchnumber',
+        name: 'ProductionBatchEdit',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionBatchEdit.vue'),
+        meta: {
+          requiresAuth: true,
+          requiredAuthorization: {
+            model: 'Production',
+            action: 'view'
+          }
+        }
+      },
+      {
+        path: 'new/:producttype',
+        name: 'productionBatchNew',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionBatchNew.vue')
+      }
+    ]
   }
 ]
 

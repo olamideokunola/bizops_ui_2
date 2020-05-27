@@ -481,7 +481,7 @@ export default {
       }
     }
 
-    const groups = $store.state.groups
+    const groups = $store.state.user.groups
 
     const groupDescriptions = groups.map((group) => group.description)
 

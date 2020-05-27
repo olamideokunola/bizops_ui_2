@@ -110,8 +110,8 @@ export default {
     // })
 
     const productGroupProductsList = computed(() => {
-      const productGroups = $store.state.productGroups
-      const products = $store.state.products
+      const productGroups = $store.state.product.productGroups
+      const products = $store.state.product.products
 
       // Set images
 

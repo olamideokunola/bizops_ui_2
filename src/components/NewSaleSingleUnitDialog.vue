@@ -153,7 +153,7 @@ export default {
     })
 
     var customers = computed({
-      get: () => $store.state.customers.map((customer) => customer.name),
+      get: () => $store.state.sale.customers.map((customer) => customer.name),
       set: (val) => {
         emit('update:addSaleDialog', val)
       }

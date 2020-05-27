@@ -144,7 +144,7 @@ export default {
 
     $store.dispatch('loadUsers')
       .then(
-        users = computed(() => $store.state.users)
+        users = computed(() => $store.state.user.users)
       )
 
     return {

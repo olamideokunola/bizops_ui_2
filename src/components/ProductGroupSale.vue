@@ -121,7 +121,7 @@ export default {
     }
 
     function addOneItemToSale (productSale) {
-      const product = $store.state.products.find((product) => productSale.productName === product.name)
+      const product = $store.state.product.products.find((product) => productSale.productName === product.name)
       // alert('In ProductGroupsSale, current day: ' + currentDay.value)
       state.newSale = {
         id: 0,
@@ -146,7 +146,7 @@ export default {
     }
 
     function removeOneItemFromSale (productSale) {
-      const product = $store.state.products.find((product) => productSale.productName === product.name)
+      const product = $store.state.product.products.find((product) => productSale.productName === product.name)
       state.newSale = {
         id: 0,
         product: product,

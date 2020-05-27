@@ -104,14 +104,14 @@ export default {
     ]
     const title = ref('New User')
 
-    const user = computed(() => $store.state.newUser)
+    const user = computed(() => $store.state.user.newUser)
 
     const saveNewUser = () => {
       $store.dispatch('saveUser')
         .then(() => {
           alert('In UserNew, User saved')
           $router.push('/user/' + user.value.username + '/edit')
-          Object.assign($store.state.newUser, {
+          Object.assign($store.state.user.newUser, {
             id: '',
             username: '',
             password: '',

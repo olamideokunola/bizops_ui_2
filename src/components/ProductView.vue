@@ -167,28 +167,28 @@ export default {
     var id = ref('')
     var name = ref('')
     var selectedGroup = ref('')
-    const productGroups = $store.state.productGroups.map((group) => group.name)
+    const productGroups = $store.state.product.productGroups.map((group) => group.name)
     var selectedUnits = ref([])
     var imageFile = ref(null)
     var imagePreviewUrl = ref('')
 
     if (props.title === 'New Product') {
       // alert('In component: New Product!')
-      id.value = state.store.state.newProduct.id
-      name.value = state.store.state.newProduct.name
-      selectedGroup.value = state.store.state.newProduct.group
-      selectedUnits.value = state.store.state.newProduct.units
+      id.value = state.store.state.product.newProduct.id
+      name.value = state.store.state.product.newProduct.name
+      selectedGroup.value = state.store.state.product.newProduct.group
+      selectedUnits.value = state.store.state.product.newProduct.units
       imageFile = ref(null)
     } else if (props.title === 'Edit Product') {
-      id = state.store.state.editProduct.id
-      name = state.store.state.editProduct.name
-      selectedGroup = state.store.state.editProduct.group
+      id = state.store.state.product.editProduct.id
+      name = state.store.state.product.editProduct.name
+      selectedGroup = state.store.state.product.editProduct.group
       selectedUnits = computed({
-        get: () => state.store.state.editProduct.units.map((unit) => unit.long),
-        set: (unit) => { state.store.state.editProduct.units = unit }
+        get: () => state.store.state.product.editProduct.units.map((unit) => unit.long),
+        set: (unit) => { state.store.state.product.editProduct.units = unit }
       })
       imageFile = ref(null)
-      imagePreviewUrl.value = state.store.state.editProduct.imgsrc
+      imagePreviewUrl.value = state.store.state.product.editProduct.imgsrc
     }
 
     const newProduct = props.product
@@ -207,8 +207,8 @@ export default {
       imagePreviewUrl.value = URL.createObjectURL(selectedFile)
     }
 
-    const units = computed(() => state.store.state.units.map((unit) => unit.long))
-    const products = computed(() => state.store.state.products)
+    const units = computed(() => state.store.state.product.units.map((unit) => unit.long))
+    const products = computed(() => state.store.state.product.products)
 
     const createProduct = () => {
       // upload file
@@ -219,10 +219,10 @@ export default {
       $store.dispatch('createProduct', {
         name: name.value,
         group: selectedGroup.value,
-        units: selectedUnits.value.map((unitlongname) => state.store.state.units.find((unit) => unit.long === unitlongname)),
+        units: selectedUnits.value.map((unitlongname) => state.store.state.product.units.find((unit) => unit.long === unitlongname)),
         selectedFile: selectedFile
       }).then(() => {
-        Object.assign(state.store.state.newProduct, {})
+        Object.assign(state.store.state.product.newProduct, {})
         name.value = ''
         selectedGroup.value = ''
         selectedUnits.value = ''
@@ -239,7 +239,7 @@ export default {
         id: id,
         name: name,
         group: selectedGroup,
-        units: selectedUnits.value.map((unitlongname) => state.store.state.units.find((unit) => unit.long === unitlongname)),
+        units: selectedUnits.value.map((unitlongname) => state.store.state.product.units.find((unit) => unit.long === unitlongname)),
         selectedFile: selectedFile
       }).then(() => {
         $router.push('/products/productlist')

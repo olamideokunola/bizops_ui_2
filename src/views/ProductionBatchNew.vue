@@ -8,7 +8,7 @@
       light
       >
 
-      <v-breadcrumbs :items="breadcrumbsItems" class="pl-0">
+      <v-breadcrumbs :items="breadctumbsItems" class="pl-0">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
@@ -17,46 +17,69 @@
       <v-toolbar-title class="pr-6"></v-toolbar-title>
 
       <v-spacer></v-spacer>
-
       <v-btn
         x-small
         color="#53CFCB"
         fab
         dark
-        @click=saveEdittedUser
+        @click="saveBatch"
         >
         <v-icon>mdi-content-save</v-icon>
       </v-btn>
 
       <v-btn
-        class="ml-4"
+        class="ml-2"
         x-small
         color="#53CFCB"
         fab
         dark
-        to="/users/new"
+        to="/products/new"
         >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-
     </v-toolbar>
+
     <v-container >
       <!-- Title -->
       <v-row class="pt-0 mt-0 mb-0">
-          <v-col
-            cols="6"
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <h1>{{ title }}</h1>
+        </v-col>
+        <v-col
+          cols="12"
+          md="6"
+          class="d-flex justify-end"
+        >
+          <v-chip
+          class="ma-2"
+          color="secondary"
           >
-            <h1>{{ title }}</h1>
-          </v-col>
+            {{batchQuantity}} pcs
+          </v-chip>
+
+          <v-chip
+          class="ma-2"
+          color="secondary"
+          >
+            &#8358;{{batchValue}}
+          </v-chip>
+        </v-col>
       </v-row>
 
       <!-- Content-->
-      <edit-user
-        :user=user
-        >
 
-      </edit-user>
+      <span class="caption">Product Type: </span>
+      <h4 class="title">{{producttype}} Products </h4>
 
+      <ProductionBatchView
+        :outerbatch="batch"
+        :outerproducttype="producttype"
+        ></ProductionBatchView>
+
+      <!-- Snackbar -->
       <v-snackbar
         v-model="state.store.state.snackBar.state"
       >
@@ -76,12 +99,12 @@
 <script>
 import { ref, reactive, computed } from '@vue/composition-api'
 
-import EditUser from '../components/UserView'
+import ProductionBatchView from '../components/ProductionBatchView'
 
 export default {
-  name: 'UserEdit',
+  name: 'Production',
   components: {
-    'edit-user': EditUser
+    ProductionBatchView
   },
   setup (props, { root: { $store, $router, $route } }) {
     const state = reactive({
@@ -94,60 +117,70 @@ export default {
 
     $store.commit('setContextualNavMenuItems', state.contextualNavMenuItems)
 
-    const breadcrumbsItems = [
+    const breadctumbsItems = [
       {
         text: 'Home',
         disabled: false,
         href: '/'
       },
       {
-        text: 'Users',
+        text: 'Production',
         disabled: false,
-        href: '#/users/userlist'
+        href: '/production/'
       },
       {
-        text: 'User',
-        disabled: true,
+        text: 'Batches',
+        disabled: false,
         href: '/'
       },
       {
-        text: 'Edit',
+        text: 'New Batch',
         disabled: true,
         href: '/'
       }
     ]
-    const title = ref('Edit User')
+    const title = ref('New Batch')
 
-    const user = computed(() => $store.state.user.users.find((user) => user.username === $route.params.username))
+    const producttype = computed(() => $route.params.producttype)
 
-    const saveEdittedUser = () => {
-      $store.state.user.newUser = user.value
-      $store.dispatch('saveUser')
-        .then(() => {
-          // alert('In UserEdit, User saved')
-          // $router.push('/user/' + user.value.username + '/edit')
-          Object.assign($store.state.user.newUser, {
-            id: '',
-            username: '',
-            password: '',
-            firstname: '',
-            lastname: '',
-            email: '',
-            phonenumber: '',
-            authorizations: [],
-            groups: []
-          })
-          $store.dispatch('showSnackBarMessage', { message: 'User data saved successfully!' })
-        })
+    const batch = ref({
+      id: null,
+      flourQuantity: null,
+      startTime: null,
+      endTime: null,
+      products: [],
+      baker: null,
+      supervisor: null,
+      assistants: [],
+      problems: []
+    })
+
+    const batchQuantity = computed(() => {})
+
+    const batchValue = computed(() => {})
+
+    const saveBatch = () => {
+      return null
     }
 
     return {
-      breadcrumbsItems,
+      breadctumbsItems,
       title,
       state,
-      user,
-      saveEdittedUser
+      batch,
+      batchQuantity,
+      batchValue,
+      producttype,
+      saveBatch
     }
+  },
+  computed: {
+  },
+  methods: {
   }
 }
 </script>
+
+<style>
+
+</style>

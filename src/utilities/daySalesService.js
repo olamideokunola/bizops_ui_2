@@ -4,7 +4,7 @@ import { computed, reactive, toRefs } from '@vue/composition-api'
 function useDaySalesService ({ state }) {
   // alert('In usedDaySalesService, daySales is: ' + state.store.state.daySales.length)
   const localstate = reactive({
-    daySales: computed(() => state.store.state.daySales),
+    daySales: computed(() => state.store.state.sale.daySales),
     daySaleQuantities: computed(() => {
       return localstate.daySales.map((daySale) => Number(daySale.quantity))
     }),
@@ -17,7 +17,7 @@ function useDaySalesService ({ state }) {
     }),
     daySalePrices: computed(() => localstate.daySales.map((daySale) => Number(daySale.price.price))),
     daySaleAmounts: computed(() => {
-      return state.store.state.daySales.map((sale) => sale.quantity * sale.product.price.price)
+      return state.store.state.sale.daySales.map((sale) => sale.quantity * sale.product.price.price)
     }),
     daySaleAmount: computed(() => {
       if (localstate.daySaleAmounts.length > 0) {
@@ -27,7 +27,7 @@ function useDaySalesService ({ state }) {
       }
     }),
     // 1 Get all Products
-    products: computed(() => state.store.state.products),
+    products: computed(() => state.store.state.product.products),
     // 2 Get all sales and group per product into a list of one object per product to SalesPerProductList
     salesPerProductList: computed(() => {
       return localstate.products.map((product) => {
@@ -45,7 +45,7 @@ function useDaySalesService ({ state }) {
     saletimes: '',
     totalOfPrices: 0,
     amount: 0,
-    productGroups: state.store.state.productGroups,
+    productGroups: state.store.state.product.productGroups,
     salesPerProductGroup: [],
     productSales: [],
     daySalePerProductGroup: computed({

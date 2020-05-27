@@ -227,7 +227,7 @@ export default {
     const title = ref('Prices')
     const price = ref(0)
 
-    const product = $store.state.products.find((product) => $route.params.productname === product.name)
+    const product = $store.state.product.products.find((product) => $route.params.productname === product.name)
 
     const singleSelect = ref(false)
     const selected = ref(product.activePrices)
@@ -258,7 +258,7 @@ export default {
     ]
 
     const prices = computed(() => {
-      return $store.state.products.find((product) => $route.params.productname === product.name).prices
+      return $store.state.product.products.find((product) => $route.params.productname === product.name).prices
     })
 
     const priceLabels = computed(() => {
