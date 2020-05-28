@@ -213,6 +213,21 @@ const routes = [
             model: 'Production',
             action: 'view'
           }
+        },
+        beforeEnter (to, from, next) {
+          const state = store.state
+          const { year, monthCorrected, day, currentDate } = useDateUtilities({ state })
+
+          store.commit('SET_CURRENT_DATE', currentDate)
+
+          store.dispatch('loadProducts')
+
+          // alert('day is: ' + day)
+
+          store.dispatch('loadDayProductionBatches', { year, month: monthCorrected, day })
+            .then(() => {
+              next()
+            })
         }
       },
       {

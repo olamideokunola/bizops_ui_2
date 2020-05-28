@@ -101,6 +101,7 @@
           </v-col>
         </v-row> -->
         <!-- New Row -->
+        {{$store.state.production.dayProduction}}
         <v-row
           v-if="state.showAddLabel"
           dense
@@ -257,6 +258,8 @@ export default {
       productNamesFromProductType: computed(() => state.test.products.map((product) => product.name))
       // productNamesFromProductType: computed(() => $store.getters.productNamesFromProductType('Bread'))
     })
+
+    $store.dispatch('loadDayProductionBatches', { year: '2020', month: '05', day: '27' })
 
     const { batchDataViewManager } = useProductionService(state)
 

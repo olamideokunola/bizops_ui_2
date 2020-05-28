@@ -123,12 +123,12 @@ export default {
       {
         text: 'Production',
         disabled: false,
-        href: '/production/'
+        href: '/#/production/summary'
       },
       {
         text: 'Batches',
         disabled: false,
-        href: '/'
+        href: '/#/production/batches'
       },
       {
         text: 'Batch',
@@ -144,12 +144,17 @@ export default {
 
     const batch = computed(() => $store.getters.batch(producttype.value, batchnumber.value))
 
+    // alert('In ProductionBatchEdit, producttype is: ' + producttype.value)
+    // alert('In ProductionBatchEdit, batchnumber is: ' + batchnumber.value)
+    // alert('In ProductionBatchEdit, id is: ' + batch.value.id)
+
     const batchQuantity = computed(() => $store.getters.batchQuantity(producttype.value, batchnumber.value))
 
     const batchValue = computed(() => $store.getters.batchValue(producttype.value, batchnumber.value))
 
     const saveBatch = () => {
-      return null
+      $store.dispatch('updateProductionBatch', { producttype: producttype.value, batch: batch.value })
+        .then(() => $router.push({ name: 'ProductionBatchEdit', params: { producttype: producttype.value, batchnumber: $store.state.production.savedProductionBatch.id } }))
     }
 
     return {

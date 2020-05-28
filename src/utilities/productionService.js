@@ -16,7 +16,6 @@ const emptyState = () => {
     state.showNewBatchFormFields = true
     batchDataView.currentState = batchDataView.addDataState
   }
-
   return { setHeaderInfoClicked }
 }
 

@@ -98,6 +98,7 @@
 
 <script>
 import { ref, reactive, computed } from '@vue/composition-api'
+import { useDateUtilities } from '../utilities/dateUtils'
 
 import ProductionBatchView from '../components/ProductionBatchView'
 
@@ -126,15 +127,15 @@ export default {
       {
         text: 'Production',
         disabled: false,
-        href: '/production/'
+        href: '/#/production/summary'
       },
       {
         text: 'Batches',
         disabled: false,
-        href: '/'
+        href: '/#/production/batches'
       },
       {
-        text: 'New Batch',
+        text: 'Batch',
         disabled: true,
         href: '/'
       }
@@ -148,6 +149,7 @@ export default {
       flourQuantity: null,
       startTime: null,
       endTime: null,
+      date: null,
       products: [],
       baker: null,
       supervisor: null,
@@ -159,8 +161,12 @@ export default {
 
     const batchValue = computed(() => {})
 
+    const { currentDateYYYYMMDD } = useDateUtilities({ state: $store.state })
+
     const saveBatch = () => {
-      return null
+      batch.value.date = currentDateYYYYMMDD.value
+      $store.dispatch('saveProductionBatch', { producttype: producttype.value, batch: batch.value })
+        .then(() => $router.push({ name: 'ProductionBatchEdit', params: { producttype: producttype.value, batchnumber: $store.state.production.savedProductionBatch.id } }))
     }
 
     return {

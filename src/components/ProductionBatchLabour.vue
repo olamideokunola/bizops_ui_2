@@ -327,7 +327,7 @@ class BatchDataViewManager {
     this.hasDataState = hasDataState
     this.editState = editState
 
-    if (state.batch.id != null) {
+    if (state.batch.baker != null || state.batch.supervisor != null || state.batch.assistants.length > 0) {
       state.showBatchLabour = true
       state.showNewBatchFormFields = false
       state.showSetBatchLabel = false

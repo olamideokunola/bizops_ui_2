@@ -1,4 +1,4 @@
-// import ProductionService from '../../services/ProductionService'
+import ProductionService from '../../services/ProductionService'
 
 export const state = {
   dayProduction: {
@@ -120,15 +120,47 @@ export const state = {
         ]
       }
     ]
-  }
+  },
+  savedProductionBatch: {}
 }
 
 export const mutations = {
+  SET_DAY_PRODUCTION_BATCHES (state, dayProductionBatches) {
+    // alert('About to set batches!')
+    const productTypes = [...new Set(dayProductionBatches.map((batch) => batch.productType))]
 
+    const groupedProductTypes = []
+
+    productTypes.forEach((productType) => {
+      const productsPerProductType = dayProductionBatches.filter((batch) => batch.productType === productType)
+      groupedProductTypes.push({
+        name: productType,
+        batches: productsPerProductType
+      })
+    })
+
+    state.dayProduction = {
+      date: dayProductionBatches.length > 0 ? dayProductionBatches[0].date : '',
+      productTypes: groupedProductTypes
+    }
+  },
+  SET_SAVED_PRODUCTION_BATCH (state, productionbatch) {
+    // alert('About to set batch!')
+    state.savedProductionBatch = productionbatch
+    // alert('In SET_SAVED_PRODUCTION_BATCH, New Batch Id is: ' + state.savedProductionBatch.id)
+  }
 }
 
 export const actions = {
-
+  loadDayProductionBatches ({ commit }, { year, month, day }) {
+    return ProductionService.loadDayProductionBatches({ commit }, { year, month, day })
+  },
+  saveProductionBatch ({ commit }, { producttype, batch }) {
+    return ProductionService.saveProductionBatch({ commit }, { producttype, batch })
+  },
+  updateProductionBatch ({ commit }, { producttype, batch }) {
+    return ProductionService.updateProductionBatch({ commit }, { producttype, batch })
+  }
 }
 
 export const getters = {
@@ -137,21 +169,21 @@ export const getters = {
     return state.dayProduction.productTypes.map((productType) => {
       const noOfBatches = productType.batches.length
 
-      const flourQuantities = productType.batches.map((batch) => batch.flourQuantity)
-      const flourQuantity = flourQuantities.reduce((total, quantity) => total + quantity)
+      const flourQuantities = productType.batches.map((batch) => Number(batch.flourQuantity))
+      const flourQuantity = flourQuantities.length > 0 ? flourQuantities.reduce((total, quantity) => total + quantity) : 0
 
       const productQuantitiesPerBatch = productType.batches.map((batch) => {
-        const productQuantities = batch.products.map((product) => product.goodQuantity)
-        return productQuantities.reduce((total, quantity) => total + quantity)
+        const productQuantities = batch.products.map((product) => Number(product.goodQuantity))
+        return productQuantities.length > 0 ? productQuantities.reduce((total, quantity) => total + quantity) : 0
       })
-      const totalProductionQuantity = productQuantitiesPerBatch.reduce((total, quantity) => total + quantity)
+      const totalProductionQuantity = productQuantitiesPerBatch.length > 0 ? productQuantitiesPerBatch.reduce((total, quantity) => total + quantity) : 0
 
       const productsAndAmountsPerBatch = productType.batches.map((batch) => {
-        const productAmounts = batch.products.map((product) => product.goodQuantity * product.price)
-        return productAmounts.reduce((total, amount) => total + amount)
+        const productAmounts = batch.products.map((product) => Number(product.goodQuantity) * Number(product.price))
+        return productAmounts.length > 0 ? productAmounts.reduce((total, amount) => total + amount) : 0
       })
 
-      const totalProductionValue = productsAndAmountsPerBatch.reduce((total, amount) => total + amount)
+      const totalProductionValue = productsAndAmountsPerBatch.length > 0 ? productsAndAmountsPerBatch.reduce((total, amount) => total + amount) : 0
 
       var productTypeNames = []
       const batchProductNames = []
@@ -173,24 +205,24 @@ export const getters = {
   totalDayProductionQuantity (state) {
     const productionQuantitiesPerProductType = state.dayProduction.productTypes.map((productType) => {
       const productQuantitiesPerBatch = productType.batches.map((batch) => {
-        const productQuantities = batch.products.map((product) => product.goodQuantity)
-        return productQuantities.reduce((total, quantity) => total + quantity)
+        const productQuantities = batch.products.map((product) => Number(product.goodQuantity))
+        return productQuantities.length > 0 ? productQuantities.reduce((total, quantity) => total + quantity) : 0
       })
-      return productQuantitiesPerBatch.reduce((total, quantity) => total + quantity)
+      return productQuantitiesPerBatch.length > 0 ? productQuantitiesPerBatch.reduce((total, quantity) => total + quantity) : 0
     })
 
-    return productionQuantitiesPerProductType.reduce((total, quantity) => total + quantity)
+    return productionQuantitiesPerProductType.length > 0 ? productionQuantitiesPerProductType.reduce((total, quantity) => total + quantity) : 0
   },
   totalDayProductionValue (state) {
     const productionValuePerProductType = state.dayProduction.productTypes.map((productType) => {
       const productsAndAmountsPerBatch = productType.batches.map((batch) => {
-        const productAmounts = batch.products.map((product) => product.goodQuantity * product.price)
-        return productAmounts.reduce((total, amount) => total + amount)
+        const productAmounts = batch.products.map((product) => Number(product.goodQuantity) * Number(product.price))
+        return productAmounts.length > 0 ? productAmounts.reduce((total, amount) => total + amount) : 0
       })
-      return productsAndAmountsPerBatch.reduce((total, amount) => total + amount)
+      return productsAndAmountsPerBatch.length > 0 ? productsAndAmountsPerBatch.reduce((total, amount) => total + amount) : 0
     })
 
-    return productionValuePerProductType.reduce((total, amount) => total + amount)
+    return productionValuePerProductType.length > 0 ? productionValuePerProductType.reduce((total, amount) => total + amount) : 0
   },
   productsPerProductTypeProducedOnDay (state) {
     return state.dayProduction.productTypes.map((productType) => {
@@ -209,13 +241,13 @@ export const getters = {
         id: productType.id,
         name: productType.name,
         batches: productType.batches.map((batch) => {
-          const quantities = batch.products.map((product) => product.goodQuantity)
+          const quantities = batch.products.map((product) => Number(product.goodQuantity))
           return {
             id: batch.id,
             flourQuantity: batch.flourQuantity,
             startTime: batch.startTime,
             endTime: batch.endTime,
-            quantity: quantities.reduce((total, quantity) => total + quantity),
+            quantity: quantities.length > 0 ? quantities.reduce((total, quantity) => total + quantity) : 0,
             productNames: batch.products.map((product) => product.name).join(', '),
             baker: batch.baker,
             supervisor: batch.supervisor
@@ -232,11 +264,11 @@ export const getters = {
   batchQuantity: (state, getters) => (productTypeName, batchnumber) => {
     const batch = getters.batch(productTypeName, batchnumber)
     const quantities = batch.products.map((product) => product.goodQuantity)
-    return quantities.reduce((total, quantity) => Number(total) + Number(quantity))
+    return quantities.length > 0 ? quantities.reduce((total, quantity) => Number(total) + Number(quantity)) : 0
   },
   batchValue: (state, getters) => (productTypeName, batchnumber) => {
     const batch = getters.batch(productTypeName, batchnumber)
-    const values = batch.products.map((product) => product.goodQuantity * product.price)
-    return values.reduce((total, value) => total + value)
+    const values = batch.products.map((product) => Number(product.goodQuantity) * Number(product.price))
+    return values.length > 0 ? values.reduce((total, value) => total + value) : 0
   }
 }

@@ -154,7 +154,7 @@ export default {
       {
         text: 'Production',
         disabled: false,
-        href: '/production/'
+        href: '/#/production/summary'
       },
       {
         text: 'Batches',

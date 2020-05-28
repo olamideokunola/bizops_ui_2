@@ -407,7 +407,7 @@ class BatchDataViewManager {
     this.hasDataState = hasDataState
     this.edittingDataState = edittingDataState
 
-    if (state.batch.id != null) {
+    if (state.batch.products.length > 0) {
       state.showForm = false
       state.showAddLabel = true
       state.addLabel = 'Add more output'
