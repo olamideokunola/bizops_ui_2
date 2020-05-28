@@ -1,6 +1,7 @@
 import ProductionService from '../../services/ProductionService'
 
 export const state = {
+  productTypes: ['Bread', 'Pastries'],
   dayProduction: {
     date: '',
     productTypes:
@@ -127,7 +128,7 @@ export const state = {
 export const mutations = {
   SET_DAY_PRODUCTION_BATCHES (state, dayProductionBatches) {
     // alert('About to set batches!')
-    const productTypes = [...new Set(dayProductionBatches.map((batch) => batch.productType))]
+    const productTypes = state.productTypes// [...new Set(dayProductionBatches.map((batch) => batch.productType))]
 
     const groupedProductTypes = []
 

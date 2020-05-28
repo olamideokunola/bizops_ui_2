@@ -68,6 +68,7 @@
                 color="grey"
                 dark
                 small
+                outlined
                 v-for="(itm, id) in item.productsPerProductTypeProducedOnDay"
                 :key=id
                 >
@@ -85,6 +86,7 @@
                   <v-list-item-avatar>
                     <v-icon
                       large
+                      color="rgba(189,164,114,1)"
                       v-text="name.icon"
                     ></v-icon>
                   </v-list-item-avatar>
@@ -152,7 +154,8 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
+import { useDateUtilities, getYearInYYYYMMYY, getMonthInYYYYMMYY, getDayInYYYYMMYY } from '../utilities/dateUtils'
+import { ref, reactive, watch } from '@vue/composition-api'
 import { mapGetters } from 'vuex'
 import DateNavigator from '../components/DateNavigator'
 
@@ -185,6 +188,19 @@ export default {
       }
     ]
     const title = ref('Production Summary')
+    const { currentDateYYYYMMDD } = useDateUtilities({ state })
+
+    // Watch for changes in current date and reload daysales
+    watch(
+      currentDateYYYYMMDD,
+      (currentDateYYYYMMDD) => {
+        // alert('In currentDate watch! ' + currentDateYYYYMMDD)
+        const year = getYearInYYYYMMYY(currentDateYYYYMMDD)
+        const month = getMonthInYYYYMMYY(currentDateYYYYMMDD)
+        const day = getDayInYYYYMMYY(currentDateYYYYMMDD)
+        $store.dispatch('loadDayProductionBatches', { year, month, day })
+      }
+    )
 
     return {
       breadctumbsItems,

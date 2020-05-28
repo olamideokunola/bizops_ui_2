@@ -146,12 +146,12 @@ export default {
     const state = reactive({
       store: $store,
       NavItems: [
-        { title: 'Day Sales', icon: 'mdi-view-dashboard', path: '/' },
+        { title: 'Day Sales', icon: 'mdi-sale', path: '/' },
         // { title: 'Sales Reports', icon: 'mdi-image', path: '/' },
-        { title: 'Products', icon: 'mdi-help-box', path: '/products/productlist' },
+        { title: 'Products', icon: 'mdi-food-croissant', path: '/products/productlist' },
         // { title: 'Customers', icon: 'mdi-help-box', path: '/' },
-        { title: 'Production', icon: 'mdi-help-box', path: '/production/summary' },
-        { title: 'Users', icon: 'mdi-help-box', path: '/users/userlist' }
+        { title: 'Production', icon: 'mdi-cogs', path: '/production/summary' },
+        { title: 'Users', icon: 'mdi-account-group', path: '/users/userlist' }
       ],
       drawer: null
     })

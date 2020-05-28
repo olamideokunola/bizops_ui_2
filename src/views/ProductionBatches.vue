@@ -104,7 +104,7 @@
             </v-icon-->
           </template>
           <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
+            <div>No production</div>
           </template>
         </v-data-table>
       </div>
@@ -125,7 +125,8 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
+import { useDateUtilities, getYearInYYYYMMYY, getMonthInYYYYMMYY, getDayInYYYYMMYY } from '../utilities/dateUtils'
+import { ref, reactive, watch } from '@vue/composition-api'
 import { mapGetters, mapState } from 'vuex'
 import DateNavigator from '../components/DateNavigator'
 
@@ -163,6 +164,19 @@ export default {
       }
     ]
     const title = ref('Production Batches')
+    const { currentDateYYYYMMDD } = useDateUtilities({ state })
+
+    // Watch for changes in current date and reload daysales
+    watch(
+      currentDateYYYYMMDD,
+      (currentDateYYYYMMDD) => {
+        // alert('In currentDate watch! ' + currentDateYYYYMMDD)
+        const year = getYearInYYYYMMYY(currentDateYYYYMMDD)
+        const month = getMonthInYYYYMMYY(currentDateYYYYMMDD)
+        const day = getDayInYYYYMMYY(currentDateYYYYMMDD)
+        $store.dispatch('loadDayProductionBatches', { year, month, day })
+      }
+    )
 
     const headers = [
       {
