@@ -4,23 +4,28 @@
     <v-navigation-drawer
       v-if="state.store.state.showNav"
       v-model="state.drawer"
+      :mini-variant.sync="state.mini"
       app
       clipped
       dark
       color="#01386E"
       >
-      <!--v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">
-            Burecs
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            subtext
-          </v-list-item-subtitle>
-        </v-list-item-content>
+      <v-list-item class="px-2">
+        <v-list-item-avatar>
+          <v-icon dark>mdi-account-circle</v-icon>
+        </v-list-item-avatar>
+
+        <v-list-item-title>{{$store.getters.loggedInUser}}</v-list-item-title>
+
+        <v-btn
+          icon
+          @click.stop="state.mini = !state.mini"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
       </v-list-item>
 
-      <v-divider></v-divider-->
+      <v-divider></v-divider>
 
       <v-list
         dense
@@ -91,31 +96,14 @@
         <v-icon>mdi-logout</v-icon>
       </v-btn>
 
-      <v-chip
+      <!--v-chip
         color="#ffffff"
         light
         small
         >
         <span class="overline">User: </span>
         <span class="overline pl-2"> {{ loggedInUser}}</span>
-      </v-chip>
-      <!--v-btn icon>
-        <v-icon>mdi-account</v-icon>
-      </v-btn-->
-
-      <!--v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn-->
-
-      <!--template v-slot:extension>
-        <v-tabs align-with-title>
-          <v-tab>Day Sales</v-tab>
-          <v-tab>Sales Reports</v-tab>
-          <v-tab>Products</v-tab>
-          <v-tab>Customers</v-tab>
-          <v-tab>Users</v-tab>
-        </v-tabs>
-      </template-->
+      </v-chip-->
     </v-app-bar>
 
     <!-- Content -->
@@ -153,7 +141,8 @@ export default {
         { title: 'Production', icon: 'mdi-cogs', path: '/production/summary' },
         { title: 'Users', icon: 'mdi-account-group', path: '/users/userlist' }
       ],
-      drawer: null
+      drawer: null,
+      mini: true
     })
 
     const showNav = $store.state.showNav

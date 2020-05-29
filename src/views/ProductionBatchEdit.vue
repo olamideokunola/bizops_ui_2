@@ -17,6 +17,10 @@
       <v-toolbar-title class="pr-6"></v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <DateNavigator
+        v-bind:showNavButtons="false"
+        ></DateNavigator>
+
       <v-btn
         x-small
         color="#53CFCB"
@@ -95,13 +99,14 @@
 
 <script>
 import { ref, reactive, computed } from '@vue/composition-api'
-
+import DateNavigator from '../components/DateNavigator'
 import ProductionBatchView from '../components/ProductionBatchView'
 
 export default {
   name: 'Production',
   components: {
-    ProductionBatchView
+    ProductionBatchView,
+    DateNavigator
   },
   setup (props, { root: { $store, $router, $route } }) {
     const state = reactive({
