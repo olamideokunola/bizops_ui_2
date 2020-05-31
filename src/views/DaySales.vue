@@ -8,13 +8,13 @@
       rounded
       >
 
-      <v-breadcrumbs :items="breadctumbsItems" class="pl-0">
+      <v-breadcrumbs :items="breadctumbsItems" class="pl-0 hidden-sm-and-down">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
 
-      <v-spacer></v-spacer>
+      <v-spacer class="hidden-sm-and-down"></v-spacer>
       <DateNavigator v-on:showSelectDateDialog="showSelectDaySalesDateDialog=true"></DateNavigator>
     </v-toolbar>
 

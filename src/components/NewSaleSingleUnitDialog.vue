@@ -5,6 +5,13 @@
         persistent
         max-width="400px">
       <v-card>
+        <v-progress-linear
+          :active="loading"
+          :indeterminate="loading"
+          absolute
+          bottom
+          color="#53CFCB"
+        ></v-progress-linear>
         <v-container>
         <v-card-text class = "pt-4 pb-0">
           New Sale
@@ -64,7 +71,7 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/composition-api'
+import { computed, reactive, ref } from '@vue/composition-api'
 import { useDateUtilities } from '../utilities/dateUtils'
 
 export default {
@@ -129,6 +136,8 @@ export default {
       long: props.product.unit
     }
 
+    const loading = ref(false)
+
     var dialog = computed({
       get: () => props.addSaleDialog,
       set: (val) => {
@@ -176,10 +185,12 @@ export default {
         const today = new Date()
         newSale.lastSaleTime = today.getTime()
         newSale.creator = $store.getters.loggedInUser
+        loading.value = true
         $store.dispatch('addItemToSale', { newSale, action, currentQuantity })
           .then(() => {
             resetSale()
             // alert('In saveSale: ' + blankSale.quantity)
+            loading.value = false
             dialog.value = false
           })
       } else {
@@ -192,7 +203,8 @@ export default {
       customers,
       sale,
       saveSale,
-      unit
+      unit,
+      loading
     }
   },
   data: function () {

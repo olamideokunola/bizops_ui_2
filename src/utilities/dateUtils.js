@@ -27,6 +27,9 @@ function getDayInYYYYMMYY (date) {
 }
 
 function getDaysInMonth (year, month) {
+  alert('Month is: ' + month)
+  // off set month number to change january to 1 from 0
+  month++
   const rem = year % 4
   const thirtyDays = [4, 9, 6, 11]
   const thirtyOneDays = [1, 3, 5, 7, 8, 10, 12]
@@ -176,6 +179,7 @@ function useDateUtilities ({ state }) {
       store.dispatch('showSnackBarMessage', { message: 'Cannot go to next day!' })
     } else {
       // at end of month
+      alert('Days in month is: ' + daysInMonth)
       if (currDay === daysInMonth) {
         // set next day
         nextDay = 1
