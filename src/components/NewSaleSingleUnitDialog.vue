@@ -14,7 +14,7 @@
           <span class="headline">{{product.name}}</span>
         </v-card-title>
         <v-card-subtitle class="pt-0 subtitle-1 pb-0 font-weight-light">
-            &#8358;{{product.price}}
+            &#8358;{{product.price ? product.price.price : ''}}
         </v-card-subtitle>
         <v-card-text class="subtitle-2 font-weight-light">
         </v-card-text>
@@ -105,23 +105,7 @@ export default {
       store: $store
     })
     const { day, month, year } = useDateUtilities({ state })
-    const blankSale = {
-      id: 0,
-      product: {},
-      price: 0,
-      currency: 'NGN',
-      date: {
-        year: year,
-        month: month,
-        day: day
-      },
-      quantity: 0,
-      customer: {},
-      // todo: use current time
-      lastSaleTime: '8:14am',
-      // todo: use current user
-      creator: 'joy@favychos.com'
-    }
+
     const sale = reactive({
       id: 0,
       product: {},
@@ -137,7 +121,7 @@ export default {
       // todo: use current time
       lastSaleTime: '8:14am',
       // todo: use current user
-      creator: 'joy@favychos.com'
+      creator: ''
     })
 
     const unit = {
@@ -159,6 +143,24 @@ export default {
       }
     })
 
+    function resetSale () {
+      sale.id = 0
+      sale.product = {}
+      sale.price = 0
+      sale.currency = 'NGN'
+      sale.date = {
+        year: Number(year),
+        month: Number(month) + 1,
+        day: Number(day)
+      }
+      sale.quantity = null
+      sale.customer = {}
+      // todo= use current time
+      sale.lastSaleTime = '8:14am'
+      // todo= use current user
+      sale.creator = ''
+    }
+
     function saveSale () {
       if (sale.quantity > 0) {
         sale.product = props.product
@@ -167,16 +169,19 @@ export default {
         Object.assign(newSale, sale)
         const action = 'add'
         const currentQuantity = Number(props.productSale.quantity)
-        newSale.date.year = Number(newSale.date.year)
-        newSale.date.month = Number(newSale.date.month)
-        newSale.date.day = Number(newSale.date.day)
+        // newSale.date.year = Number(newSale.date.year)
+        // newSale.date.month = Number(newSale.date.month)
+        // newSale.date.day = Number(newSale.date.day)
         newSale.quantity = Number(newSale.quantity)
+        const today = new Date()
+        newSale.lastSaleTime = today.getTime()
+        newSale.creator = $store.getters.loggedInUser
         $store.dispatch('addItemToSale', { newSale, action, currentQuantity })
-          .then(
-            Object.assign(sale, blankSale),
-            alert('In saveSale: ' + blankSale.quantity),
-            dialog = false
-          )
+          .then(() => {
+            resetSale()
+            // alert('In saveSale: ' + blankSale.quantity)
+            dialog.value = false
+          })
       } else {
         $store.commit('showSnackBar', { state: true, text: 'Quantity must be greater than 0!' })
       }

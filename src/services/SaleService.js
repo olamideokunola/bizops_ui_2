@@ -2,6 +2,8 @@ import axios from '../store/axios'
 
 export default {
   addItemToSale ({ commit, rootState }, { newSale, action, currentQuantity }) {
+    // alert('Product id is: ' + newSale.product.id)
+    // alert('Price is: ' + newSale.price.price + ', quantity is: ' + newSale.quantity)
     const data = {
       productid: newSale.product.id,
       quantity: newSale.quantity,
@@ -14,6 +16,10 @@ export default {
     return axios.post('/sales/', data)
       .then(response => {
         commit('ADD_SALE_TO_DAYSALES', { newSale: response.data.daysale, action, currentQuantity })
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error)
       })
   },
   loadDaySales ({ state, commit }, { year, month, day }) {
