@@ -60,6 +60,7 @@
           v-for="item in state.store.state.contextualNavMenuItems"
           :key="item.title"
           link
+          :to="item.path"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>

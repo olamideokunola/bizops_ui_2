@@ -8,13 +8,13 @@
       light
       >
 
-      <v-breadcrumbs :items="breadctumbsItems" class="pl-0">
+      <v-breadcrumbs :items="breadctumbsItems" class="pl-0 hidden-sm-and-down">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
 
-      <v-toolbar-title class="pr-6"></v-toolbar-title>
+      <v-toolbar-title class="pr-6 hidden-sm-and-down"></v-toolbar-title>
 
       <v-spacer></v-spacer>
       <DateNavigator v-on:showSelectDateDialog="showSelectDateDialog"></DateNavigator>
@@ -68,7 +68,6 @@
                 color="grey"
                 dark
                 small
-                outlined
                 v-for="(itm, id) in item.productsPerProductTypeProducedOnDay"
                 :key=id
                 >

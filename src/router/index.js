@@ -257,7 +257,14 @@ const routes = [
       {
         path: 'new/:producttype',
         name: 'productionBatchNew',
-        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionBatchNew.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductionBatchNew.vue'),
+        meta: {
+          requiresAuth: true,
+          requiredAuthorization: {
+            model: 'Production',
+            action: 'create'
+          }
+        }
       }
     ]
   }

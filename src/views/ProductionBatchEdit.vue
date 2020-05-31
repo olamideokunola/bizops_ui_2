@@ -7,16 +7,21 @@
       color="#ffffff"
       light
       >
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+        color="#53CFCB"
+      ></v-progress-linear>
 
-      <v-breadcrumbs :items="breadctumbsItems" class="pl-0">
+      <v-breadcrumbs :items="breadctumbsItems" class="pl-0 hidden-sm-and-down">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
 
-      <v-toolbar-title class="pr-6"></v-toolbar-title>
-
-      <v-spacer></v-spacer>
+      <v-spacer class="hidden-sm-and-down"></v-spacer>
       <DateNavigator
         v-bind:showNavButtons="false"
         ></DateNavigator>
@@ -114,6 +119,7 @@ export default {
       snackBarState: $store.state.snackBar.state,
       snackBarText: $store.state.snackBar.text,
       contextualNavMenuItems: [
+        { title: 'Batch List', icon: 'mdi-format-list-bulleted-square', path: '/production/batches' }
       ]
     })
 
@@ -157,9 +163,16 @@ export default {
 
     const batchValue = computed(() => $store.getters.batchValue(producttype.value, batchnumber.value))
 
+    const loading = ref(false)
+
     const saveBatch = () => {
+      loading.value = true
       $store.dispatch('updateProductionBatch', { producttype: producttype.value, batch: batch.value })
-        .then(() => $router.push({ name: 'ProductionBatchEdit', params: { producttype: producttype.value, batchnumber: $store.state.production.savedProductionBatch.id } }))
+        .then(() => {
+          loading.value = false
+          $router.push({ name: 'ProductionBatchEdit', params: { producttype: producttype.value, batchnumber: $store.state.production.savedProductionBatch.id } })
+          $store.dispatch('showSnackBarMessage', { message: 'Production batch saved!' })
+        })
     }
 
     return {
@@ -171,7 +184,8 @@ export default {
       batch,
       batchQuantity,
       batchValue,
-      saveBatch
+      saveBatch,
+      loading
     }
   },
   computed: {

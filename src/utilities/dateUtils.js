@@ -27,7 +27,7 @@ function getDayInYYYYMMYY (date) {
 }
 
 function getDaysInMonth (year, month) {
-  alert('Month is: ' + month)
+  // alert('Month is: ' + month)
   // off set month number to change january to 1 from 0
   month++
   const rem = year % 4
@@ -179,7 +179,7 @@ function useDateUtilities ({ state }) {
       store.dispatch('showSnackBarMessage', { message: 'Cannot go to next day!' })
     } else {
       // at end of month
-      alert('Days in month is: ' + daysInMonth)
+      // alert('Days in month is: ' + daysInMonth)
       if (currDay === daysInMonth) {
         // set next day
         nextDay = 1

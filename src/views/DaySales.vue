@@ -7,6 +7,13 @@
       light
       rounded
       >
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+        color="#53CFCB"
+      ></v-progress-linear>
 
       <v-breadcrumbs :items="breadctumbsItems" class="pl-0 hidden-sm-and-down">
         <template v-slot:divider>
@@ -22,12 +29,14 @@
       <!-- Title -->
       <v-row class="pt-0 mt-0 mb-0">
           <v-col
-            cols="6"
+            cols="12"
+            md="6"
           >
             <h1>{{ title }}</h1>
           </v-col>
           <v-col
-            cols="6"
+            cols="12"
+            md="6"
             class="d-flex justify-end"
           >
             <v-chip
@@ -200,18 +209,28 @@ export default {
       // alert(event.productName)
     }
 
+    const loading = ref(false)
+
     const addOneItemToSale = function (newSale) {
       // alert('In DaySales addOneItemToSale , qty is: ' + newSale.quantity)
       const action = 'add'
       const currentQuantity = 0
+      loading.value = true
       $store.dispatch('addItemToSale', { newSale, action, currentQuantity })
+        .then(() => {
+          loading.value = false
+        })
     }
 
     const removeOneItemFromSale = function (payload) {
       const newSale = payload.newSale
       const action = 'remove'
       const currentQuantity = payload.currentQuantity
+      loading.value = true
       $store.dispatch('addItemToSale', { newSale, action, currentQuantity })
+        .then(() => {
+          loading.value = false
+        })
     }
 
     return {
@@ -235,7 +254,8 @@ export default {
       nextDay,
       previousDay,
       daySaleAmounts,
-      daySaleQuantities
+      daySaleQuantities,
+      loading
     }
   }
 }
