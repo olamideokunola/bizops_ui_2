@@ -1,10 +1,10 @@
 <template>
-  <v-container class="d-flex pa-0 align-center justify-space-between">
+  <v-container class="d-flex d-md-flex pa-0 align-center justify-space-between justify-md-end">
     <v-subheader class="pa-0">{{ currentDate }}</v-subheader>
     <div>
       <v-btn
         v-if="showNavButtons"
-        class="mr-2"
+        class="mx-2"
         x-small
         color="#53CFCB"
         fab
