@@ -18,12 +18,16 @@ export default {
     }
     return axios.post('/products/', data)
       .then(response => {
-        commit('SET_NEW_PRODUCT', response.data)
-        // alert('id is: ' + response.data.id)
-        const id = response.data.id
-        dispatch('uploadProductPhoto', { payload, id })
+        if (response.data.status === 'Success') {
+          commit('SET_NEW_PRODUCT', response.data)
+          // alert('id is: ' + response.data.id)
+          const id = response.data.id
+          dispatch('uploadProductPhoto', { payload, id })
 
-        dispatch('loadProducts')
+          dispatch('loadProducts')
+        } else if (response.data.status === 'Failure') {
+          dispatch('showSnackBarMessage', { message: 'Product name exists! Cannot Save!' })
+        }
       })
   },
   updateProduct ({ dispatch, commit }, payload) {
