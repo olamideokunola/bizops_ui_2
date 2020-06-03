@@ -9,6 +9,7 @@
         ></ProductionBatchLabour>
       <ProductionBatchOutput
         :batch="state.batch"
+        :producttype="state.producttype"
         ></ProductionBatchOutput>
       <ProductionBatchProblems
         :batch="state.batch"
@@ -52,6 +53,7 @@ export default {
       showSetBatchLabel: true,
       showNewBatchFormFields: false,
       batch: computed(() => props.outerbatch),
+      producttype: computed(() => props.outerproducttype),
       showBatchInfo: false,
       showEditBatchFormFields: false
     })

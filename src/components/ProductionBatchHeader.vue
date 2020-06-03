@@ -115,8 +115,8 @@
                 dense
                 dark
                 type="Number"
-                label="Quantity"
-                placeholder="Quantity"
+                label="Flour Quantity (kg)"
+                placeholder="Flour Quantity (kg)"
                 v-model="state.newFlourQuantity"
                 >
               </v-text-field>

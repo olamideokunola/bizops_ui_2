@@ -10,7 +10,11 @@
             class="d-flex align-start justify-center">
             <v-col cols="12" md="4" class="d-flex flex-row justify-space-between d-md-flex flex-md-column align-md-center">
               <div class="overline align-self-md-start" >Baker</div>
-              <div v-if="state.showBatchLabour" class="body-1 align-self-md-start" >{{state.batch.baker}}</div>
+              <div
+                v-if="state.showBatchLabour"
+                class="body-1 align-self-md-start">
+                {{state.batch.baker}}
+              </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex flex-row justify-space-between d-md-flex flex-md-column justify-md-center">
               <div class="overline" >Supervisor</div>
@@ -274,12 +278,14 @@ const addDataState = () => {
     state.batch.baker = state.newBaker
     state.batch.supervisor = state.newSupervisor
 
-    if (state.assistants) {
+    if (state.assistants && state.assistants.length > 0) {
       state.batch.assistants = state.assistants.split(', ')
     }
 
     state.showBatchLabour = true
     state.showNewBatchFormFields = false
+
+    //  Next state
     batchDataView.currentState = batchDataView.hasDataState
   }
   return { closeForm, setFields }

@@ -184,6 +184,10 @@ export default {
     batch: {
       type: Object,
       required: true
+    },
+    producttype: {
+      type: String,
+      required: true
     }
   },
   setup (props, { root: { $store, $router, $route } }) {
@@ -194,7 +198,7 @@ export default {
       disableProductNameField: true,
       addLabel: 'Add first output',
       buttonLabel: '',
-      producttype: 'Bread',
+      producttype: computed(() => props.producttype),
       batch: computed(() => props.batch),
       output: {
         productName: '',
@@ -247,7 +251,7 @@ export default {
       },
       products: computed(() => $store.state.product.products),
       // productNamesFromProductType: computed(() => state.test.products.map((product) => product.name))
-      productNamesFromProductType: computed(() => $store.getters.productNamesFromProductType('Bread'))
+      productNamesFromProductType: computed(() => $store.getters.productNamesFromProductType(state.producttype))
     })
 
     const { batchDataViewManager } = useProductionService(state)
