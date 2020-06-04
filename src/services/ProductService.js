@@ -19,9 +19,9 @@ export default {
     return axios.post('/products/', data)
       .then(response => {
         if (response.data.status === 'Success') {
-          commit('SET_NEW_PRODUCT', response.data)
+          commit('SET_NEW_PRODUCT', response.data.product)
           // alert('id is: ' + response.data.id)
-          const id = response.data.id
+          const id = response.data.product.id
           dispatch('uploadProductPhoto', { payload, id })
 
           dispatch('loadProducts')
