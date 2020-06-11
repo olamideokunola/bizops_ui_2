@@ -170,6 +170,8 @@ export default {
       sale.creator = ''
     }
 
+    const { currentDay, currentMonth, currentYear } = useDateUtilities({ state })
+
     function saveSale () {
       if (sale.quantity > 0) {
         sale.product = props.product
@@ -184,6 +186,11 @@ export default {
         newSale.quantity = Number(newSale.quantity)
         const today = new Date()
         newSale.lastSaleTime = today.getTime()
+        newSale.date = {
+          year: Number(currentYear.value),
+          month: Number(currentMonth.value),
+          day: Number(currentDay.value)
+        }
         newSale.creator = $store.getters.loggedInUser
         loading.value = true
         $store.dispatch('addItemToSale', { newSale, action, currentQuantity })
