@@ -47,7 +47,7 @@
           </v-chip>
         </v-col>
       </v-row>
-{{dayProductionWithTotalQuantityAndProductNames}}
+
       <!-- Content-->
       <div
         fluid

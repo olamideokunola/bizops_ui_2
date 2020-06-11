@@ -162,7 +162,7 @@ function useDateUtilities ({ state }) {
     var year = Number(dateElements[0])
     var day = convertToTwoDigitString(Number(dateElements[2]))
 
-    alert('In formatDateAsYYYYMMDD ' + year + '-' + month + '-' + day)
+    // alert('In formatDateAsYYYYMMDD ' + year + '-' + month + '-' + day)
 
     return year + '-' + month + '-' + day
   }
