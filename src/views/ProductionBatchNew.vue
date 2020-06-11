@@ -173,12 +173,13 @@ export default {
 
     const batchValue = computed(() => {})
 
-    const { currentDateYYYYMMDD } = useDateUtilities({ state: $store.state })
+    const { currentDateYYYYMMDD, formatDateAsYYYYMMDD } = useDateUtilities({ state: $store.state })
 
     const loading = ref(false)
 
     const saveBatch = () => {
-      batch.value.date = currentDateYYYYMMDD.value
+      batch.value.date = formatDateAsYYYYMMDD({ date: currentDateYYYYMMDD.value })
+      alert('In saveBatch of ProductionBatchView, date is: ' + batch.value.date)
       loading.value = true
       $store.dispatch('saveProductionBatch', { producttype: producttype.value, batch: batch.value })
         .then(() => {

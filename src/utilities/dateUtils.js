@@ -154,7 +154,17 @@ function useDateUtilities ({ state }) {
 
   const setcurrentDateYYYYMMDD = ({ date }) => {
     currentDateYYYYMMDD.value = date
-    // alert(currentDateYYYYMMDD.value)
+  }
+
+  function formatDateAsYYYYMMDD ({ date }) {
+    const dateElements = date.split('-')
+    var month = convertToTwoDigitString(Number(dateElements[1]))
+    var year = Number(dateElements[0])
+    var day = convertToTwoDigitString(Number(dateElements[2]))
+
+    alert('In formatDateAsYYYYMMDD ' + year + '-' + month + '-' + day)
+
+    return year + '-' + month + '-' + day
   }
 
   // goto next month
@@ -261,6 +271,7 @@ function useDateUtilities ({ state }) {
     previousMonth,
     currentDateYYYYMMDD,
     setcurrentDateYYYYMMDD,
+    formatDateAsYYYYMMDD,
     nextDay,
     previousDay,
     currentMonth,
