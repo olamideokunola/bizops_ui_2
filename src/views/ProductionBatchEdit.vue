@@ -22,7 +22,9 @@
       </v-breadcrumbs>
 
       <v-spacer class="hidden-sm-and-down"></v-spacer>
+
       <DateNavigator
+      class="mr-4"
         v-bind:showNavButtons="false"
         ></DateNavigator>
 
@@ -42,7 +44,7 @@
         color="#53CFCB"
         fab
         dark
-        to="/products/new"
+        :to="{ name:'productionBatchNew', params: { producttype }}"
         >
         <v-icon>mdi-plus</v-icon>
       </v-btn>

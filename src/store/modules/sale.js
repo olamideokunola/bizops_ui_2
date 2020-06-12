@@ -71,8 +71,8 @@ export const mutations = {
 }
 
 export const actions = {
-  addItemToSale ({ commit, rootState }, { newSale, action, currentQuantity }) {
-    return SaleService.addItemToSale({ commit, rootState }, { newSale, action, currentQuantity })
+  addItemToSale ({ commit, dispatch, rootState }, { newSale, action, currentQuantity }) {
+    return SaleService.addItemToSale({ commit, dispatch, rootState }, { newSale, action, currentQuantity })
   },
   loadDaySales ({ state, commit }, { year, month, day }) {
     return SaleService.loadDaySales({ commit, state }, { year, month, day })

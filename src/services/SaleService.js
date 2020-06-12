@@ -1,7 +1,7 @@
 import axios from '../store/axios'
 
 export default {
-  addItemToSale ({ commit, rootState }, { newSale, action, currentQuantity }) {
+  addItemToSale ({ commit, dispatch, rootState }, { newSale, action, currentQuantity }) {
     // alert('Product id is: ' + newSale.product.id)
     // alert('Price is: ' + newSale.price.price + ', quantity is: ' + newSale.quantity)
     const data = {
@@ -15,7 +15,13 @@ export default {
     }
     return axios.post('/sales/', data)
       .then(response => {
-        commit('ADD_SALE_TO_DAYSALES', { newSale: response.data.daysale, action, currentQuantity })
+        // alert(response.data.status)
+        if (response.data.status !== 'Failure') {
+          commit('ADD_SALE_TO_DAYSALES', { newSale: response.data.daysale, action, currentQuantity })
+        } else if (response.data.status === 'Failure') {
+          // alert('In addItemToSale, ypu can create sale only in current day')
+          dispatch('showSnackBarMessage', { message: response.data.message })
+        }
       })
       .catch(function (error) {
         // handle error
