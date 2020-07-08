@@ -9,7 +9,7 @@ export default {
       quantity: newSale.quantity,
       price: newSale.price,
       date: newSale.date,
-      customerid: 1, // newSale.customer.id,
+      customerid: null, // newSale.customer.id,
       saleid: null,
       creator: rootState.user.user.email
     }
